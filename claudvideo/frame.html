@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+:root {
+  --bg: #0B1020; --panel: #151B34; --text: #F4F6FF; --muted: #8A93B8;
+  --cyan: #38BDF8; --amber: #FBBF24; --pink: #F472B6;
+  --green: #34D399; --red: #F87171; --violet: #A78BFA;
+  --font: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+}
+html, body { margin: 0; padding: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+#frame {
+  position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: var(--font);
+  background: radial-gradient(1300px 1000px at 50% 28%, #1B2552 0%, #0B1020 72%);
+}
+#grid {
+  position: absolute; left: 0; top: 190px; width: 1080px; height: 1150px;
+  background-image:
+    linear-gradient(rgba(130,150,255,.07) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(130,150,255,.07) 2px, transparent 2px);
+  background-size: 60px 60px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+          mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+}
+#progress { position: absolute; left: 0; top: 0; height: 8px; width: 0; background: var(--cyan); }
+#title {
+  position: absolute; left: 50%; top: 70px; transform: translateX(-50%);
+  max-width: 940px; padding: 14px 36px; border-radius: 999px; box-sizing: border-box;
+  background: rgba(255,255,255,.08); color: var(--text);
+  font-size: 38px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.scene { position: absolute; left: 0; top: 190px; width: 1080px; height: 1150px; opacity: 0; overflow: hidden; }
+.scene svg { display: block; width: 1080px; height: 1150px; }
+.scene svg text { font-family: var(--font); }
+#subs {
+  position: absolute; left: 60px; right: 60px; top: 1380px; height: 260px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.sub {
+  display: none; font-size: 66px; line-height: 1.2; font-weight: 800; color: #fff;
+  text-shadow: 0 4px 0 rgba(0,0,0,.55), 0 0 20px rgba(0,0,0,.65);
+}
+.sub.long { font-size: 56px; }
+.sub .w { display: inline-block; margin: 0 .14em; }
+.sub .w.cur { color: var(--amber); }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="grid"></div>
+  <div id="progress"></div>
+  <div id="title"></div>
+  <!--SCENES-->
+  <div id="subs"></div>
+</div>
+<script>
+/*__DATA__*/
+(function () {
+  "use strict";
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const TL = window.TL;
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const easeOut = x => 1 - Math.pow(1 - x, 3);
+  const easeBack = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+  const r3 = v => Math.round(v * 1000) / 1000;
+  const SHAPES = ["path", "line", "polyline", "polygon", "circle", "ellipse", "rect"];
+  const SKIP = new Set(["defs", "stop", "lineargradient", "radialgradient", "marker", "clippath",
+                        "mask", "filter", "pattern", "symbol", "title", "desc", "tspan"]);
+  const DUR = { fade: 0.5, pop: 0.5, slide: 0.55, draw: 0.9 };
+  const FADE_IN = 0.35, FADE_OUT = 0.25;
+
+  document.getElementById("title").textContent = TL.title;
+
+  // ---- сцены: оборачиваем анимируемые элементы в свои <g>, чтобы не трогать их transform
+  const scenes = TL.scenes.map((sc, i) => {
+    const root = document.getElementById("scene-" + i);
+    const svg = root.querySelector("svg");
+    const items = [];
+    svg.querySelectorAll("[data-beat],[data-anim],[data-loop]").forEach(el => {
+      const tag = el.localName.toLowerCase();
+      if (SKIP.has(tag) || el.closest("defs")) return;
+      const w = document.createElementNS(SVGNS, "g");
+      el.parentNode.insertBefore(w, el);
+      w.appendChild(el);
+      const beat = el.hasAttribute("data-beat") ? parseInt(el.getAttribute("data-beat"), 10) : null;
+      const anim = el.getAttribute("data-anim") || (beat === null ? null : (tag === "text" ? "slide" : "pop"));
+      const loop = el.getAttribute("data-loop");
+      const bb = w.getBBox();
+      const inner = SHAPES.includes(tag) ? [el] : Array.from(el.querySelectorAll(SHAPES.join(",")));
+      const geo = inner.filter(s => typeof s.getTotalLength === "function");
+      items.push({
+        w, beat, anim, loop,
+        delay: parseFloat(el.getAttribute("data-delay") || "0") || 0,
+        cx: bb.x + bb.width / 2, cy: bb.y + bb.height / 2,
+        phase: items.length * 0.9,
+        draws: anim === "draw" ? geo.map(s => ({ el: s, len: s.getTotalLength(),
+                                                 fillOp: parseFloat(getComputedStyle(s).fillOpacity) || 1 })) : [],
+        flows: loop === "flow" ? geo : [],
+      });
+    });
+    return { root, items, tl: sc, index: i };
+  });
+
+  // ---- субтитры
+  const subsBox = document.getElementById("subs");
+  const beats = [];
+  TL.scenes.forEach(sc => sc.beats.forEach(b => beats.push(b)));
+  const subEls = beats.map(b => {
+    const d = document.createElement("div");
+    d.className = "sub" + (b.text.length > 64 ? " long" : "");
+    b.words.forEach(w => {
+      const s = document.createElement("span");
+      s.className = "w"; s.textContent = w.text; d.appendChild(s);
+    });
+    subsBox.appendChild(d);
+    return d;
+  });
+  let shownSub = -1, shownWord = -1;
+  const progress = document.getElementById("progress");
+
+  function updateItem(it, t, sc) {
+    let t0 = sc.start;
+    if (it.beat !== null && sc.beats[it.beat]) t0 = sc.beats[it.beat].start - 0.05;
+    t0 += it.delay;
+    const dur = DUR[it.anim] || 0.5;
+    const p = it.anim ? clamp01((t - t0) / dur) : 1;
+    let op = 1, tx = 0, ty = 0, s = 1, rot = 0;
+    switch (it.anim) {
+      case "fade":  op = easeOut(p); break;
+      case "pop":   op = clamp01(p * 4); s = 0.4 + 0.6 * easeBack(p); break;
+      case "slide": op = easeOut(p); ty = (1 - easeOut(p)) * 60; break;
+      case "draw":  op = p > 0 ? 1 : 0; break;
+    }
+    if (p > 0) {
+      const ph = it.phase;
+      switch (it.loop) {
+        case "pulse":  s *= 1 + 0.05 * Math.sin(2 * Math.PI * t / 1.4 + ph); break;
+        case "float":  ty += 10 * Math.sin(2 * Math.PI * t / 2.6 + ph); break;
+        case "spin":   rot += 360 * t / 6; break;
+        case "wiggle": rot += 5 * Math.sin(2 * Math.PI * t / 1.2 + ph); break;
+      }
+    }
+    for (const d of it.draws) {
+      if (p < 1) {
+        d.el.style.strokeDasharray = d.len;
+        d.el.style.strokeDashoffset = d.len * (1 - easeOut(p));
+        d.el.style.fillOpacity = d.fillOp * clamp01((p - 0.5) * 2);
+      } else {
+        d.el.style.strokeDasharray = ""; d.el.style.strokeDashoffset = ""; d.el.style.fillOpacity = "";
+      }
+    }
+    if (it.loop === "flow" && p > 0) for (const f of it.flows) f.style.strokeDashoffset = -t * 60;
+    it.w.setAttribute("opacity", r3(op));
+    const tr = "translate(" + r3(tx) + " " + r3(ty) + ") translate(" + r3(it.cx) + " " + r3(it.cy) +
+               ") rotate(" + r3(rot) + ") scale(" + r3(s) + ") translate(" + r3(-it.cx) + " " + r3(-it.cy) + ")";
+    it.w.setAttribute("transform", tr);
+  }
+
+  // Поставить кадр на время t. Состояние целиком определяется временем, поэтому
+  // можно перематывать в любом порядке.
+  window.seek = function (t) {
+    for (const s of scenes) {
+      const sc = s.tl, last = s.index === scenes.length - 1;
+      const fin = s.index === 0 ? 0.15 : FADE_IN;
+      const op = clamp01((t - sc.start) / fin) * (last ? 1 : clamp01((sc.end - t) / FADE_OUT));
+      const k = 0.97 + 0.03 * easeOut(clamp01((t - sc.start) / 0.5));
+      s.root.style.opacity = r3(op);
+      s.root.style.transform = "scale(" + r3(k) + ")";
+      if (op > 0) for (const it of s.items) updateItem(it, t, sc);
+    }
+    let sub = -1;
+    for (let i = 0; i < beats.length; i++) { if (beats[i].start - 0.02 <= t) sub = i; else break; }
+    let word = -1;
+    if (sub >= 0) beats[sub].words.forEach((w, j) => { if (w.start <= t) word = j; });
+    if (sub !== shownSub) {
+      if (shownSub >= 0) subEls[shownSub].style.display = "none";
+      if (sub >= 0) subEls[sub].style.display = "block";
+      shownSub = sub; shownWord = -1;
+    }
+    if (sub >= 0 && word !== shownWord) {
+      const spans = subEls[sub].children;
+      if (shownWord >= 0 && spans[shownWord]) spans[shownWord].classList.remove("cur");
+      if (word >= 0) spans[word].classList.add("cur");
+      shownWord = word;
+    }
+    progress.style.width = r3(clamp01(t / TL.total) * 1080) + "px";
+  };
+
+  // Время, на которое сцена полностью «собрана» (для превью и проверки вёрстки).
+  window.settledTime = function (i) {
+    const sc = TL.scenes[i];
+    const lastStart = sc.beats.length ? sc.beats[sc.beats.length - 1].start : sc.start;
+    return Math.min(Math.max(lastStart + 1.2, sc.start + 0.8), i === TL.scenes.length - 1 ? TL.total : sc.end - 0.3);
+  };
+
+  // Проверка вёрстки: подписи в кадре, не перекрываются, читаемый размер.
+  window.lintScene = function (i) {
+    window.seek(window.settledTime(i));
+    const s = scenes[i], svg = s.root.querySelector("svg");
+    const o = svg.getBoundingClientRect(), TOL = 14, out = [];
+    const texts = Array.from(svg.querySelectorAll("text")).map(el => {
+      const r = el.getBoundingClientRect();
+      return { el, label: (el.textContent || "").trim().slice(0, 30),
+               x0: r.left - o.left, x1: r.right - o.left, y0: r.top - o.top, y1: r.bottom - o.top,
+               fs: parseFloat(getComputedStyle(el).fontSize) };
+    }).filter(t => t.label && t.x1 > t.x0);
+    for (const t of texts) {
+      if (t.x0 < 20 - TOL || t.x1 > 1060 + TOL || t.y0 < -TOL || t.y1 > 1150 + TOL)
+        out.push("текст «" + t.label + "» выходит за безопасную зону (x " + Math.round(t.x0) + ".." + Math.round(t.x1) +
+                 ", y " + Math.round(t.y0) + ".." + Math.round(t.y1) + "); поля слева/справа не меньше 20");
+      if (t.fs < 34)
+        out.push("текст «" + t.label + "» слишком мелкий (" + Math.round(t.fs) + " px), нужно не меньше 34");
+    }
+    for (let a = 0; a < texts.length; a++) for (let b = a + 1; b < texts.length; b++) {
+      const A = texts[a], B = texts[b];
+      const w = Math.min(A.x1, B.x1) - Math.max(A.x0, B.x0), h = Math.min(A.y1, B.y1) - Math.max(A.y0, B.y0);
+      if (w > 0 && h > 0) {
+        const small = Math.min((A.x1 - A.x0) * (A.y1 - A.y0), (B.x1 - B.x0) * (B.y1 - B.y0));
+        if (w * h > 0.2 * small) out.push("тексты «" + A.label + "» и «" + B.label + "» перекрываются");
+      }
+    }
+    return out;
+  };
+
+  window.seek(0);
+})();
+</script>
+</body>
+</html>
