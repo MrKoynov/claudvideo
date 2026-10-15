@@ -45,7 +45,7 @@ python -m claudvideo make "Почему у осьминога три сердц�
 
 После генерации в консоль печатаются название, описание и теги для YouTube, а также список **утверждений, которые нужно проверить по источникам перед публикацией**. Модель может ошибаться в фактах, это ваша ответственность как автора.
 
-Готовый пример без ключа и без сети: [`examples/octopus.json`](examples/octopus.json).
+Готовые примеры без ключа и без сети: [`examples/octopus.json`](examples/octopus.json) (три сердца осьминога) и [`examples/venus.json`](examples/venus.json) (на Венере сутки длиннее года).
 
 ```bash
 python -m claudvideo preview examples/octopus.json     # стоп-кадры за пару секунд

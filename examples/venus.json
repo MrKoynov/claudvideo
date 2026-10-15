@@ -1,0 +1,54 @@
+{
+  "title": "Венера: сутки длиннее года",
+  "youtube_title": "На Венере сутки длиннее года #shorts",
+  "description": "Почему на Венере сутки длиннее года и почему Солнце там встаёт на западе.",
+  "hashtags": [
+    "#факты",
+    "#космос",
+    "#венера",
+    "#наука",
+    "#shorts"
+  ],
+  "scenes": [
+    {
+      "beats": [
+        "На Венере сутки длиннее года.",
+        "Звучит как ошибка, но это правда."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1150\"><g data-beat=\"0\" data-anim=\"pop\" data-loop=\"wiggle\"><circle cx=\"540\" cy=\"560\" r=\"260\" fill=\"#A78BFA\" stroke=\"#E4DBFF\" stroke-width=\"8\"/><path d=\"M300 443.0 Q540 417.0 780 443.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M300 534.0 Q540 508.0 780 534.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M300 625.0 Q540 599.0 780 625.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M300 703.0 Q540 677.0 780 703.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/></g><text x=\"540\" y=\"190\" font-size=\"96\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"slide\"><tspan fill=\"#FBBF24\">сутки</tspan><tspan fill=\"#F4F6FF\"> &gt; </tspan><tspan fill=\"#38BDF8\">год</tspan></text><text x=\"540\" y=\"1010\" font-size=\"72\" fill=\"#F4F6FF\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"slide\">Это правда</text><text x=\"540\" y=\"1090\" font-size=\"46\" fill=\"#8A93B8\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"fade\" data-delay=\"0.3\">так устроена Венера</text></svg>"
+    },
+    {
+      "beats": [
+        "Год — это один оборот вокруг Солнца.",
+        "У Венеры он длится двести двадцать пять земных суток."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1150\"><circle cx=\"540\" cy=\"560\" r=\"340\" fill=\"none\" stroke=\"#8A93B8\" stroke-width=\"6\" stroke-dasharray=\"4 18\" stroke-linecap=\"round\" data-anim=\"fade\"/><circle cx=\"540\" cy=\"560\" r=\"90\" fill=\"#FBBF24\" data-anim=\"pop\"/><g data-beat=\"0\" data-anim=\"pop\" data-delay=\"0.2\" data-loop=\"spin\"><circle cx=\"540\" cy=\"560\" r=\"340\" fill=\"none\" stroke=\"none\"/><circle cx=\"880\" cy=\"560\" r=\"44\" fill=\"#A78BFA\" stroke=\"#E4DBFF\" stroke-width=\"6\"/></g><text x=\"540\" y=\"150\" font-size=\"80\" fill=\"#38BDF8\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"slide\">оборот вокруг Солнца</text><text x=\"540\" y=\"1010\" font-size=\"90\" fill=\"#38BDF8\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"slide\">год = 225 суток</text><text x=\"540\" y=\"1085\" font-size=\"46\" fill=\"#8A93B8\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"fade\" data-delay=\"0.3\">земных</text></svg>"
+    },
+    {
+      "beats": [
+        "А вокруг своей оси она крутится ещё медленнее:",
+        "один оборот занимает двести сорок три суток."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1150\"><defs><marker id=\"ah\" markerUnits=\"userSpaceOnUse\" markerWidth=\"30\" markerHeight=\"30\" refX=\"22\" refY=\"15\" orient=\"auto\"><path d=\"M0 0 L30 15 L0 30 z\" fill=\"context-stroke\"/></marker></defs><g data-beat=\"0\" data-anim=\"pop\" ><circle cx=\"540\" cy=\"520\" r=\"230\" fill=\"#A78BFA\" stroke=\"#E4DBFF\" stroke-width=\"8\"/><path d=\"M330 416.5 Q540 390.5 750 416.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M330 497.0 Q540 471.0 750 497.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M330 577.5 Q540 551.5 750 577.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M330 646.5 Q540 620.5 750 646.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/></g><g data-beat=\"1\" data-anim=\"pop\" data-loop=\"spin\"><circle cx=\"540\" cy=\"520\" r=\"230\" fill=\"none\" stroke=\"none\"/><circle cx=\"540\" cy=\"318\" r=\"22\" fill=\"#FBBF24\" stroke=\"#fff\" stroke-width=\"4\"/></g><path d=\"M740 300 A270 270 0 0 1 800 520\" fill=\"none\" stroke=\"#FBBF24\" stroke-width=\"10\" stroke-linecap=\"round\" marker-end=\"url(#ah)\" data-beat=\"1\" data-anim=\"draw\" data-delay=\"0.2\"/><text x=\"540\" y=\"150\" font-size=\"80\" fill=\"#FBBF24\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"slide\">оборот вокруг оси</text><text x=\"540\" y=\"975\" font-size=\"90\" fill=\"#FBBF24\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"slide\">сутки = 243</text><text x=\"540\" y=\"1050\" font-size=\"46\" fill=\"#8A93B8\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"fade\" data-delay=\"0.3\">земных суток</text></svg>"
+    },
+    {
+      "beats": [
+        "Сравните: год короче суток на восемнадцать дней."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1150\"><text x=\"540\" y=\"200\" font-size=\"72\" fill=\"#F4F6FF\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"slide\">год короче суток</text><text x=\"110\" y=\"440\" font-size=\"56\" fill=\"#38BDF8\" text-anchor=\"start\" font-weight=\"800\" data-beat=\"0\" data-anim=\"fade\">год: 225</text><rect x=\"110\" y=\"470\" width=\"787\" height=\"110\" rx=\"20\" fill=\"#38BDF8\" data-beat=\"0\" data-anim=\"draw\" data-delay=\"0.1\"/><text x=\"110\" y=\"700\" font-size=\"56\" fill=\"#FBBF24\" text-anchor=\"start\" font-weight=\"800\" data-beat=\"0\" data-anim=\"fade\" data-delay=\"0.5\">сутки: 243</text><rect x=\"110\" y=\"730\" width=\"850\" height=\"110\" rx=\"20\" fill=\"#FBBF24\" data-beat=\"0\" data-anim=\"draw\" data-delay=\"0.6\"/><text x=\"540\" y=\"1010\" font-size=\"96\" fill=\"#FBBF24\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"pop\" data-delay=\"1.2\">на 18 дней</text></svg>"
+    },
+    {
+      "beats": [
+        "Но и это ещё не всё.",
+        "Венера крутится в обратную сторону,",
+        "поэтому Солнце там встаёт на западе."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1080 1150\"><defs><marker id=\"ah\" markerUnits=\"userSpaceOnUse\" markerWidth=\"30\" markerHeight=\"30\" refX=\"22\" refY=\"15\" orient=\"auto\"><path d=\"M0 0 L30 15 L0 30 z\" fill=\"context-stroke\"/></marker></defs><g data-beat=\"1\" data-anim=\"pop\" ><circle cx=\"540\" cy=\"420\" r=\"150\" fill=\"#A78BFA\" stroke=\"#E4DBFF\" stroke-width=\"8\"/><path d=\"M410 352.5 Q540 326.5 670 352.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M410 405.0 Q540 379.0 670 405.0\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M410 457.5 Q540 431.5 670 457.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M410 502.5 Q540 476.5 670 502.5\" fill=\"none\" stroke=\"#C9B8FF\" stroke-opacity=\".55\" stroke-width=\"10\" stroke-linecap=\"round\"/></g><path d=\"M701 285 A210 210 0 1 1 379 285\" fill=\"none\" stroke=\"#FBBF24\" stroke-width=\"10\" stroke-linecap=\"round\" marker-end=\"url(#ah)\" data-beat=\"1\" data-anim=\"draw\"/><text x=\"540\" y=\"140\" font-size=\"64\" fill=\"#F4F6FF\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"0\" data-anim=\"slide\">и это не всё</text><text x=\"540\" y=\"740\" font-size=\"52\" fill=\"#FBBF24\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"1\" data-anim=\"fade\" data-delay=\"0.5\">крутится наоборот</text><line x1=\"60\" y1=\"980\" x2=\"1020\" y2=\"980\" stroke=\"#F4F6FF\" stroke-width=\"8\" stroke-linecap=\"round\" data-anim=\"fade\"/><g data-beat=\"2\" data-anim=\"pop\" data-loop=\"pulse\"><path d=\"M100 980 A80 80 0 0 1 260 980 Z\" fill=\"#FBBF24\"/></g><path d=\"M180 880 L180 810\" stroke=\"#FBBF24\" stroke-width=\"10\" stroke-linecap=\"round\" marker-end=\"url(#ah)\" data-beat=\"2\" data-anim=\"draw\" data-delay=\"0.4\"/><text x=\"180\" y=\"1060\" font-size=\"46\" fill=\"#F4F6FF\" text-anchor=\"middle\" font-weight=\"800\" data-beat=\"2\" data-anim=\"fade\" data-delay=\"0.3\">запад</text><text x=\"880\" y=\"1060\" font-size=\"46\" fill=\"#8A93B8\" text-anchor=\"middle\" font-weight=\"800\" data-anim=\"fade\">восток</text></svg>"
+    }
+  ],
+  "fact_check": [
+    "Период вращения Венеры вокруг оси около 243 земных суток, орбитальный период около 225",
+    "Вращение обратное (ретроградное), поэтому Солнце восходит на западе",
+    "«Сутки» в ролике это оборот вокруг оси. Солнечные сутки (от рассвета до рассвета) на Венере около 117 земных суток"
+  ]
+}
