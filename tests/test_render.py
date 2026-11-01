@@ -119,7 +119,7 @@ def test_full_render_with_voice_track_produces_vertical_video_with_audio(tmp_pat
     p = tmp_path / "s.json"
     p.write_text(script.model_dump_json(), encoding="utf-8")
     out = tmp_path / "out"
-    assert main(["render", str(p), "-o", str(out), "--fps", "10"]) == 0
+    assert main(["render", str(p), "-o", str(out), "--fps", "10", "--engine", "builtin"]) == 0
 
     info = json.loads(subprocess.run(
         ["ffprobe", "-v", "error", "-show_streams", "-show_format", "-of", "json", str(out / "video.mp4")],

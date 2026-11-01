@@ -55,6 +55,19 @@ def cmd_script(args: argparse.Namespace) -> Script:
     return script
 
 
+def pick_engine(engine: str) -> str:
+    """auto: HyperFrames, если есть Node.js (npx), иначе встроенный движок."""
+    if engine != "auto":
+        return engine
+    from . import hyperframes
+
+    if hyperframes.available():
+        return "hyperframes"
+    print("Node.js (npx) не найден: рендерю встроенным движком. "
+          "Для анимации HyperFrames установите Node.js 22+.", file=sys.stderr)
+    return "builtin"
+
+
 def render_pipeline(script: Script, out_dir: Path, args: argparse.Namespace) -> None:
     from .render import FrameRenderer, render_previews, render_video
     from .tts import synthesize
@@ -89,7 +102,14 @@ def render_pipeline(script: Script, out_dir: Path, args: argparse.Namespace) -> 
     write_wav(pcm, wav)
 
     video = Path(args.video) if getattr(args, "video", None) else out_dir / "video.mp4"
-    render_video(script, tl, wav, video, fps=args.fps)
+    if pick_engine(args.engine) == "hyperframes":
+        from . import hyperframes
+
+        project = out_dir / "hyperframes"
+        print(f"Рендер через HyperFrames (проект: {project})")
+        hyperframes.render_video(script, tl, wav, video, project, fps=args.fps)
+    else:
+        render_video(script, tl, wav, video, fps=args.fps)
     print(f"Видео: {video}")
     if args.preview:
         paths = render_previews(script, tl, out_dir / "preview")
@@ -103,6 +123,9 @@ def add_render_opts(p: argparse.ArgumentParser) -> None:
     p.add_argument("--music", help="файл фоновой музыки (mp3/wav), зацикливается")
     p.add_argument("--music-gain", type=float, default=0.12, help="громкость музыки, 0..1")
     p.add_argument("--fps", type=int, default=30)
+    p.add_argument("--engine", choices=["auto", "hyperframes", "builtin"], default="auto",
+                   help="движок видео: hyperframes (GSAP, нужен Node.js), builtin (Python + Chromium); "
+                        "auto выбирает hyperframes, если есть npx")
     p.add_argument("--no-lint", action="store_true", help="не проверять вёрстку")
 
 
