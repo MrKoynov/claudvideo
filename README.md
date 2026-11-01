@@ -109,6 +109,22 @@ python -m claudvideo render work/s.json --preview     # 3. финальное в
 
 Холст сцены 1080×1150; плашка с названием сверху и субтитры снизу рисуются рендерером. Нижние ~300 px кадра оставлены свободными: там интерфейс платформ.
 
+## Плагины и скиллы Claude Code
+
+Проект подключает к Claude Code набор плагинов для видео, анимации и дизайна. При первом открытии папки в Claude Code он предложит доверять проекту и установить плагины: соглашайтесь.
+
+| Что | Откуда | Зачем |
+|---|---|---|
+| HyperFrames | `hyperframes@claude-plugins-official` (heygen-com/hyperframes) | видео из HTML/CSS/JS, рендер в mp4 |
+| Remotion | `.claude/skills/remotion-*` (remotion-dev/skills) | программные видео на React: анимации, субтитры, рендер |
+| Скиллы Эмиля Ковальски | `.claude/skills/animate`, `improve-animations`, … (emilkowalski/skills) | правильные кривые и тайминги анимаций |
+| taste-skill | `taste-skill@taste-skill` (Leonxlnx/taste-skill) | вкус и арт-дирекшн |
+| impeccable | `impeccable@impeccable` (pbakaus/impeccable) | полировка интерфейса, `/impeccable …` |
+| frontend-design | `frontend-design@claude-plugins-official` | дизайн фронтенда без шаблонности |
+| UI UX Pro Max | `ui-ux-pro-max@ui-ux-pro-max-skill` | палитры, шрифты, стили |
+
+Плагины объявлены в `.claude/settings.json`. Скиллы Remotion и Ковальски лежат в `.claude/skills/`, версии зафиксированы в `skills-lock.json`. Обновить их: `npx skills update -p`.
+
 ## Тесты
 
 ```bash
