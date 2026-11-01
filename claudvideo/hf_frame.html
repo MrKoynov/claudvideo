@@ -18,10 +18,6 @@ html, body { margin: 0; padding: 0; background: var(--bg); }
   position: absolute; inset: 0;
   background: radial-gradient(1300px 1000px at 50% 28%, #1B2552 0%, #0B1020 72%);
 }
-#glow {
-  position: absolute; left: 140px; top: 260px; width: 800px; height: 800px; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(56,189,248,.16), rgba(56,189,248,0));
-}
 #grid {
   position: absolute; left: 0; top: 190px; width: 1080px; height: 1150px;
   background-image:
@@ -61,7 +57,6 @@ html, body { margin: 0; padding: 0; background: var(--bg); }
 <div id="root" data-composition-id="claudvideo" data-start="0"
      data-width="1080" data-height="1920" data-duration="/*__TOTAL__*/">
   <div id="bg"></div>
-  <div id="glow"></div>
   <div id="grid"></div>
   <!--SCENES-->
   <!--SUBS-->
@@ -91,8 +86,6 @@ html, body { margin: 0; padding: 0; background: var(--bg); }
   tl.fromTo("#progress", { scaleX: 0 }, { scaleX: 1, duration: end, ease: "none" }, 0);
   tl.fromTo("#grid", { backgroundPosition: "0px 0px" },
             { backgroundPosition: "0px " + Math.round(end * 12) + "px", duration: end, ease: "none" }, 0);
-  tl.fromTo("#glow", { scale: 0.9, opacity: 0.7 },
-            { scale: 1.12, opacity: 1, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: reps(0, 3.2) }, 0);
 
   // ---- сцены
   TL.scenes.forEach((sc, i) => {
